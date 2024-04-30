@@ -15,7 +15,7 @@ const initialState = {
     minPrice: 0,
     maxPrice: 0,
     price: 0,
-    shipping: false,
+    freeShipping: false,
   },
   isFiltersModalOpen: false,
 };
@@ -88,7 +88,8 @@ const productsSlice = createSlice({
       }
 
       let products = state.allProducts;
-      const { text, category, company, color, price, shipping } = state.filters;
+      const { text, category, company, color, price, freeShipping } =
+        state.filters;
 
       if (text !== "") {
         products = products.filter((product) => {
@@ -116,9 +117,9 @@ const productsSlice = createSlice({
         });
       }
 
-      if (shipping) {
+      if (freeShipping) {
         products = products.filter((product) => {
-          return product.shipping === true;
+          return product.freeShipping === true;
         });
       }
 
@@ -135,7 +136,7 @@ const productsSlice = createSlice({
         category: "all",
         color: "all",
         price: state.filters.maxPrice,
-        shipping: false,
+        freeShipping: false,
       };
     },
   },

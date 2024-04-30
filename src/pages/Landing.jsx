@@ -2,7 +2,7 @@ import { Contact, FeaturedProducts, Hero, Services } from "../components";
 import { filterFeaturedProducts } from "../features/products/productsSlice";
 import { customFetch } from "../utils";
 
-const url = "/react-store-products";
+const url = "/products";
 
 const productsQuery = {
   queryKey: ["products"],
@@ -13,9 +13,10 @@ const productsQuery = {
 
 export const loader = (queryClient, store) => {
   return async () => {
-    const { data: products } = await queryClient.ensureQueryData(productsQuery);
+    const { data } = await queryClient.ensureQueryData(productsQuery);
+    const { products } = data;
     store.dispatch(filterFeaturedProducts(products));
-    return { products };
+    return null;
   };
 };
 

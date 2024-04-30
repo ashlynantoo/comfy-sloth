@@ -13,7 +13,7 @@ const NavLinks = () => {
     <>
       {navLinks.map((link) => {
         const { id, url, text } = link;
-        if (!user && (text === "checkout" || text === "orders")) {
+        if (!user && text === "checkout") {
           return null;
         }
         return (

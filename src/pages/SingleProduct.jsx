@@ -16,7 +16,7 @@ const singleProductQuery = (productId) => {
   return {
     queryKey: ["singleProduct", productId],
     queryFn: () => {
-      const url = `/react-store-single-product?id=${productId}`;
+      const url = `/products/${productId}`;
       return customFetch(url);
     },
   };
@@ -25,9 +25,8 @@ const singleProductQuery = (productId) => {
 export const loader = (queryClient) => {
   return async ({ params }) => {
     const { id } = params;
-    const { data: product } = await queryClient.ensureQueryData(
-      singleProductQuery(id)
-    );
+    const { data } = await queryClient.ensureQueryData(singleProductQuery(id));
+    const { product } = data;
     return product;
   };
 };
@@ -35,14 +34,14 @@ export const loader = (queryClient) => {
 const SingleProduct = () => {
   const product = useLoaderData();
   const {
-    id,
+    _id,
     images,
     name,
     price,
     description,
-    stock,
-    stars,
-    reviews,
+    inventory,
+    averageRating,
+    numOfReviews,
     colors,
     company,
   } = product;
@@ -53,8 +52,8 @@ const SingleProduct = () => {
 
   const increaseAmount = () => {
     let newAmount = amount + 1;
-    if (newAmount > stock) {
-      newAmount = stock;
+    if (newAmount > inventory) {
+      newAmount = inventory;
     }
     setAmount(newAmount);
   };
@@ -68,13 +67,13 @@ const SingleProduct = () => {
   };
 
   const cartItem = {
-    id: id + productColor,
+    id: _id + productColor,
     name,
     image: images[0].url,
     price,
     color: productColor,
     amount,
-    max: stock,
+    max: inventory,
   };
 
   const dispatch = useDispatch();
@@ -93,22 +92,22 @@ const SingleProduct = () => {
           <ProductImages images={images} />
           <section className="content">
             <h3>{name}</h3>
-            <ProductRating stars={stars} reviews={reviews} />
+            <ProductRating stars={averageRating} reviews={numOfReviews} />
             <h5 className="price">{dollarPrice}</h5>
             <p className="desc">{description}</p>
             <p className="info">
               <span>Available : </span>
-              {stock > 0 ? "In stock" : "Out of stock"}
+              {inventory > 0 ? "In stock" : "Out of stock"}
             </p>
             <p className="info">
               <span>SKU :</span>
-              {id}
+              {_id}
             </p>
             <p className="info">
               <span>Brand :</span>
               {company}
             </p>
-            {stock > 0 && (
+            {inventory > 0 && (
               <div>
                 <hr />
                 <div className="info spacing">

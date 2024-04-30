@@ -8,7 +8,7 @@ import {
 } from "../features/products/productsSlice";
 import { customFetch } from "../utils";
 
-const url = "/react-store-products";
+const url = "/products";
 
 const productsQuery = {
   queryKey: ["products"],
@@ -19,10 +19,11 @@ const productsQuery = {
 
 export const loader = (queryClient, store) => {
   return async () => {
-    const { data: products } = await queryClient.ensureQueryData(productsQuery);
+    const { data } = await queryClient.ensureQueryData(productsQuery);
+    const { count, products } = data;
     store.dispatch(setProducts(products));
     store.dispatch(sortProducts("price-lowest"));
-    return { products };
+    return { count, products };
   };
 };
 

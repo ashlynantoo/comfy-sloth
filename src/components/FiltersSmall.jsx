@@ -15,7 +15,7 @@ const FiltersSmall = () => {
     useSelector((store) => {
       return store.productsState;
     });
-  const { category, company, color, minPrice, maxPrice, price, shipping } =
+  const { category, company, color, minPrice, maxPrice, price, freeShipping } =
     filters;
   const dollarPrice = formatPrice(price);
 
@@ -31,7 +31,7 @@ const FiltersSmall = () => {
       filterValue = event.target.dataset.color;
     } else if (filterName === "price") {
       filterValue = Number(filterValue);
-    } else if (filterName === "shipping") {
+    } else if (filterName === "freeShipping") {
       filterValue = event.target.checked;
     }
     dispatch(filterProducts({ filterName, filterValue }));
@@ -152,14 +152,14 @@ const FiltersSmall = () => {
 
             {/* shipping */}
             <div className="form-control shipping">
-              <label htmlFor="shipping" className="label">
+              <label htmlFor="freeShipping" className="label">
                 free shipping
               </label>
               <input
                 type="checkbox"
-                name="shipping"
-                id="shipping"
-                checked={shipping}
+                name="freeShipping"
+                id="freeShipping"
+                checked={freeShipping}
                 className="checkbox"
                 onChange={(event) => {
                   updateFilters(event);
