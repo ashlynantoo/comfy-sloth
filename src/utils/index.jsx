@@ -1,7 +1,7 @@
 import { GiCompass, GiDiamondHard, GiStabbedNote } from "react-icons/gi";
 import axios from "axios";
 
-const baseUrl = "http://localhost:3000/api/v1";
+const baseUrl = "https://ecommerce-store-server-rkso.onrender.com/api/v1";
 
 export const customFetch = axios.create({
   baseURL: baseUrl,
